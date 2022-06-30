@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-
-function Timer() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setCount((c) => c + 1);
-    }, 1000);
-    return () => {
-      clearInterval(id);
-    };
-  }, []);
-
-  return <p className="m-10">{count}</p>;
-}
+import React, { useState, useRef, useLayoutEffect } from 'react';
 
 export default function App() {
-  return <Timer />;
+  const [width, setWidth] = useState(0);
+  const buttonRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const infos = buttonRef.current.getBoundingClientRect();
+    setWidth(infos.width);
+  }, []);
+
+  return (
+    <>
+      <button ref={buttonRef} className="m-10">
+        Je suis un bouton
+      </button>
+      <p className="m-10">{width}</p>
+    </>
+  );
 }
